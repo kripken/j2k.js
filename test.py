@@ -7,7 +7,7 @@ sys.path.append(EMSCRIPTEN_ROOT)
 import tools.shared as emscripten
 
 data = str(map(ord, open('syntensity_lobby_s.j2k', 'r').read()))
-output = emscripten.run_js(SPIDERMONKEY_ENGINE, 'test.js', [data])
+output = emscripten.run_js(SPIDERMONKEY_ENGINE, 'test.js', [data, sys.argv[1]])
 m = re.search("result:(.*)", output)
 array = eval('[' + m.groups(1)[0] + ']')
 generated = ''.join([chr(item) for item in array])

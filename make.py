@@ -15,7 +15,7 @@ emscripten.Settings.USE_TYPED_ARRAYS = 0
 emscripten.Settings.CORRECT_OVERFLOWS = 0
 emscripten.Settings.CORRECT_ROUNDINGS = 0
 emscripten.Settings.OPTIMIZE = 1
-emscripten.Settings.RELOOP = 0
+emscripten.Settings.RELOOP = 1
 emscripten.Settings.INIT_STACK = 0
 emscripten.Settings.INVOKE_RUN = 0
 
@@ -70,7 +70,7 @@ emscripten.Building.emscripten(filename)
 
 print 'Bundle'
 
-f = open('openjpeg.js', 'w')
+f = open('openjpeg.raw.js', 'w')
 f.write('''
 var openjpeg = (function() {
   var Module = {};
@@ -88,4 +88,21 @@ f.write('''
 })();
 ''')
 f.close()
+
+print 'Eliminating unneeded variables'
+
+eliminatoed = Popen([emscripten.COFFEESCRIPT, emscripten.VARIABLE_ELIMINATOR], stdin=PIPE, stdout=PIPE).communicate(open('openjpeg.raw.js', 'r').read())[0]
+f = open('openjpeg.elim.js', 'w')
+f.write(eliminatoed)
+f.close()
+
+print 'Closure compiler'
+
+f = open('openjpeg.elim.js', 'a')
+f.write('this["openjpeg"] = openjpeg;')
+f.close()
+
+Popen(['java', '-jar', emscripten.CLOSURE_COMPILER,
+               '--compilation_level', 'ADVANCED_OPTIMIZATIONS',
+               '--js', 'openjpeg.elim.js', '--js_output_file', 'openjpeg.js'], stdout=PIPE, stderr=STDOUT).communicate()
 

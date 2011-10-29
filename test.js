@@ -1,7 +1,7 @@
 
 print('loading..');
 
-load('openjpeg.js');
+load(arguments[1]);
 
 print('decoding..');
 
