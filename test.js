@@ -5,5 +5,5 @@ load('openjpeg.js');
 
 print('decoding..');
 
-openjpeg(eval(arguments[0]));
+print('result:' + openjpeg(eval(arguments[0])));
 

@@ -1,6 +1,7 @@
 build/*
-configure
+configure_
 configure_err
-make
+make_
 make_err
+*~
 
