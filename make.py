@@ -45,8 +45,7 @@ lib = emscripten.Building.build_library('openjpeg', os.path.join(os.getcwd(), 'b
                        ],
                        configure=['cmake', '..'],
                        #configure_args=['--disable-png', '--disable-tiff', '--disable-lcms2', '--disable-lcms1'],
-                       make_args=[], # no -j 2, since parallel builds can fail
-                       )#env_init = { 'EMMAKEN_NO_SDK': '1' })
+                       make_args=[]) # no -j 2, since parallel builds can fail
 
 print 'LLVM dis'
 
@@ -55,7 +54,8 @@ shutil.move(filename, filename + '.o') # Use the filename conventions in the ems
 emscripten.Building.llvm_dis(filename)
 
 if 0:
-  print '[Autodebugger]'
+  print '[Autodebugger]' # XXX Probably should run this script with EMMAKEN_NO_SDK=1, for the bc to be runnable in lli
+                         #     Then do        ~/Dev/emscripten/tools/exec_llvm.py bc.bc.o -i image.j2k -o image.raw
 
   shutil.move('build/bc.bc.o.ll', 'build/bc.bc.orig.o.ll')
   output = Popen(['python', emscripten.AUTODEBUGGER, 'build/bc.bc.orig.o.ll', 'build/bc.bc.o.ll'], stdout=PIPE, stderr=STDOUT).communicate()[0]
