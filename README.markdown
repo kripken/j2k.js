@@ -4,8 +4,14 @@ j2k.js
 
 This is a port of OpenJPEG, an open-source JPEG2000 codec, to JavaScript using Emscripten.
 
-The API is in progress. Right now you can grab openjpeg.js which is an optimized and
-minified build. Then you simply call
+Why? JPEG2000 is useful sometimes, and web browsers don't have native support for it, so having
+a pure JS decoder is a nice option to have.
+
+
+Usage
+-----
+
+Grab openjpeg.js which is an optimized and minified build. Then you simply call
 
   openjpeg([..])
 
@@ -21,6 +27,8 @@ The function returns a a JSON object of form
 
 Building
 --------
+
+(You don't normally need to do this.)
 
 Do
 

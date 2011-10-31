@@ -81,12 +81,19 @@ f.write('''
     FS.init();
     FS.root.write = true;
     FS.createDataFile('/', 'image.j2k', data, true, false);
+
     run(['-i', 'image.j2k', '-o', 'image.raw'])
-    return {
+    var ret = {
       width: getValue(_output_width, 'i32'),
       height: getValue(_output_height, 'i32'),
       data: FS.root.contents['image.raw'].contents
     };
+
+    // Delete the file so future calls will work
+    var path = FS.analyzePath('/image.j2k');
+    delete path.parentObject.contents[path.name];
+
+    return ret;
   };
 })();
 ''')
