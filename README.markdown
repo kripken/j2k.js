@@ -13,17 +13,19 @@ Usage
 
 Grab openjpeg.js which is an optimized and minified build. Then you simply call
 
-  openjpeg([..])
-
+```
+    openjpeg([..])
+```
 with the argument being an array of values in 0-255 (representing a j2k file in binary format).
 The function returns a a JSON object of form
 
-  {
-    width: the width
-    height: the height
-    data: the pixel data (in 24-bit RGB format)
-  }
-
+```
+    {
+      width: the width
+      height: the height
+      data: the pixel data (in 24-bit RGB format)
+    }
+```
 
 Building
 --------
@@ -32,7 +34,9 @@ Building
 
 Do
 
-  python make.py
+```
+    python make.py
+```
 
 Looks like you need |make clean| in build/ as incremental builds do not always link.
 
