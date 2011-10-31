@@ -511,6 +511,10 @@ void info_callback(const char *msg, void *client_data) {
 
 /* -------------------------------------------------------------------------- */
 
+/* XXX Emscripten: output the size */
+int output_width;
+int output_height;
+
 int main(int argc, char **argv) {
 	opj_dparameters_t parameters;	/* decompression parameters */
 	img_fol_t img_fol;
@@ -792,6 +796,10 @@ int main(int argc, char **argv) {
 			break;
 #endif /* HAVE_LIBTIFF */
 		case RAW_DFMT:			/* RAW */
+      /* XXX Emscripten: output the size */
+      output_width = image->x1 - image->x0;
+      output_height = image->y1 - image->y0;
+
 			if(imagetoraw(image, parameters.outfile)){
 				fprintf(stdout,"Error generating raw file. Outfile %s not generated\n",parameters.outfile);
 			}

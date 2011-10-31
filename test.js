@@ -5,5 +5,7 @@ load(arguments[1]);
 
 print('decoding..');
 
-print('result:' + openjpeg(eval(arguments[0])));
+var output = openjpeg(eval(arguments[0]));
+
+print('result:' + [output.width, output.height, output.data]);
 

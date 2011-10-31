@@ -10,6 +10,21 @@ minified build. Then you simply call
   openjpeg([..])
 
 with the argument being an array of values in 0-255 (representing a j2k file in binary format).
-The function returns a similar array that contains a RAW image, and can be parsed into a canvas
-like the emscripten openjpeg demo does etc.
+The function returns a a JSON object of form
+
+  {
+    width: the width
+    height: the height
+    data: the pixel data (in 24-bit RGB format)
+  }
+
+
+Building
+--------
+
+Do
+
+  python make.py
+
+Looks like you need |make clean| in build/ as incremental builds do not always link.
 

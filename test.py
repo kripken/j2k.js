@@ -9,16 +9,22 @@ import tools.shared as emscripten
 data = str(map(ord, open('syntensity_lobby_s.j2k', 'r').read()))
 output = emscripten.run_js(SPIDERMONKEY_ENGINE, 'test.js', [data, sys.argv[1]])
 m = re.search("result:(.*)", output)
-array = eval('[' + m.groups(1)[0] + ']')
-generated = ''.join([chr(item) for item in array])
+output = eval('[' + m.groups(1)[0] + ']')
+width = output[0]
+height = output[1]
+data = ''.join([chr(item) for item in output[2:]])
 
 out = open('generated.raw', 'wb')
-out.write(generated)
+out.write(data)
 out.close()
 
-# check vs reference
+# check
+
+assert width == 40, 'Failed to generate proper width: %d' % width
+assert height == 30, 'Failed to generate proper height: %d' % height
 
 reference = open('reference.raw', 'rb').read()
-assert reference == generated, 'Failed to generate proper output :('
+assert reference == data, 'Failed to generate proper output :('
+
 print 'Success :)'
 

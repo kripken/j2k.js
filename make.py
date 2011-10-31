@@ -38,7 +38,6 @@ lib = emscripten.Building.build_library('openjpeg', os.path.join(os.getcwd(), 'b
                        [
                         os.path.join('bin', 'libopenjpeg.so.1.4.0.bc'),
                         os.path.sep.join('bin/j2k_to_image.bc'.split('/')),
-                        'getopt.bc',
                         #os.path.sep.join('codec/CMakeFiles/j2k_to_image.dir/index.c.o'.split('/')),
                         #os.path.sep.join('codec/CMakeFiles/j2k_to_image.dir/convert.c.o'.split('/')),
                         #os.path.sep.join('codec/CMakeFiles/j2k_to_image.dir/__/common/color.c.o'.split('/')),
@@ -83,7 +82,11 @@ f.write('''
     FS.root.write = true;
     FS.createDataFile('/', 'image.j2k', data, true, false);
     run(['-i', 'image.j2k', '-o', 'image.raw'])
-    return FS.root.contents['image.raw'].contents;
+    return {
+      width: getValue(_output_width, 'i32'),
+      height: getValue(_output_height, 'i32'),
+      data: FS.root.contents['image.raw'].contents
+    };
   };
 })();
 ''')
