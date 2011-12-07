@@ -1,0 +1,49 @@
+<html>
+<body>
+
+  <canvas id="canvas"></canvas>
+
+  <script src="../openjpeg.js"></script>
+  <script>
+    
+    // Modify this to test new images
+    var src = 'sail.j2k';
+
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', src, false);
+    xhr.mozResponseType = xhr.responseType = 'arraybuffer';
+    xhr.send(null);
+
+    if (xhr.status === 200 || xhr.status === 0) {
+      var buffer = (xhr.mozResponseArrayBuffer || xhr.mozResponse ||
+                  xhr.responseArrayBuffer || xhr.response);
+
+      var bytes = new Uint8Array(buffer);
+      var rgbImage = openjpeg(bytes);
+
+      var canvas = document.getElementById('canvas');
+      canvas.width = rgbImage.width;
+      canvas.height = rgbImage.height;
+      
+      var ctx = canvas.getContext('2d');
+      var rgbaImage = ctx.createImageData(rgbImage.width, rgbImage.height);
+
+      var i = 0, j = 0;
+      while (i < rgbaImage.data.length && j < rgbImage.data.length) {
+        rgbaImage.data[i] = rgbImage.data[j]; // R
+        rgbaImage.data[i+1] = rgbImage.data[j+1]; // G
+        rgbaImage.data[i+2] = rgbImage.data[j+2]; // B
+        rgbaImage.data[i+3] = 255; // A
+
+        // Next pixel
+        i += 4;
+        j += 3;
+      }
+
+      ctx.putImageData(rgbaImage, 0, 0);
+    }
+  
+  </script>
+
+</body>
+</html>
