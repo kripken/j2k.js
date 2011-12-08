@@ -27,6 +27,11 @@ The function returns a a JSON object of form
     }
 ```
 
+For examples of usage, see the bundled directory:
+
++ `examples/`
+
+
 Building
 --------
 
