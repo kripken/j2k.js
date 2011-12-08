@@ -40,3 +40,12 @@ Do
 
 Looks like you need |make clean| in build/ as incremental builds do not always link.
 
+Testing
+-------
+
+Run
+
+```
+    python test.py openjpeg.js
+```
+
