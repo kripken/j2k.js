@@ -14,18 +14,23 @@ Usage
 Grab openjpeg.js which is an optimized and minified build. Then you simply call
 
 ```
-    openjpeg([..])
+    openjpeg(data, suffix)
 ```
-with the argument being an array of values in 0-255 (representing a j2k file in binary format).
-The function returns a a JSON object of form
+with the first argument being an array of values in 0-255 (representing a file in binary format),
+and the second argument being the suffix of the file (there is no autodetection of the file type
+in OpenJPEG, and whether it is a .jp2 or .j2k does actually matter it turns out). The function
+returns a a JSON object of form
 
 ```
     {
       width: the width
       height: the height
-      data: the pixel data (in 24-bit RGB format)
+      data: the pixel data (in 24-bit "Planar RGB" format)
     }
 ```
+
+See test.js for a concrete example (it is called by test.py).
+
 
 Building
 --------
@@ -48,4 +53,9 @@ Run
 ```
     python test.py openjpeg.js
 ```
+
+The generated files are written to generated.raw. You can view them in GIMP
+by opening them as RAW (select "all files", then "select file type" as raw,
+and pick "generated.raw"). You should select "Planar RGB" as the format, and
+enter the right width and height.
 

@@ -77,12 +77,13 @@ var openjpeg = (function() {
 ''')
 f.write(open(filename + '.o.js', 'r').read())
 f.write('''
-  return function(data) {
+  return function(data, suffix) {
+    assert(suffix == 'jp2' || suffix == 'j2k', 'You must specify the suffix as a second parameter. Is this a .j2k or a .jp2 file?');
     FS.init();
     FS.root.write = true;
-    FS.createDataFile('/', 'image.j2k', data, true, false);
+    FS.createDataFile('/', 'image.' + suffix, data, true, false);
 
-    run(['-i', 'image.j2k', '-o', 'image.raw'])
+    run(['-i', 'image.' + suffix, '-o', 'image.raw'])
     var ret = {
       width: getValue(_output_width, 'i32'),
       height: getValue(_output_height, 'i32'),
@@ -90,7 +91,7 @@ f.write('''
     };
 
     // Delete the file so future calls will work
-    var path = FS.analyzePath('/image.j2k');
+    var path = FS.analyzePath('/image.' + suffix);
     delete path.parentObject.contents[path.name];
 
     return ret;
