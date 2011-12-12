@@ -71,31 +71,26 @@ print 'Bundle'
 
 f = open('openjpeg.raw.js', 'w')
 f.write('''
-var openjpeg = (function() {
+function openjpeg(data, suffix) {
   var Module = {};
   Module.arguments = [];
 ''')
 f.write(open(filename + '.o.js', 'r').read())
 f.write('''
-  return function(data) {
-    FS.init();
-    FS.root.write = true;
-    FS.createDataFile('/', 'image.j2k', data, true, false);
+  assert(suffix == 'jp2' || suffix == 'j2k', 'You must specify the suffix as a second parameter. Is this a .j2k or a .jp2 file?');
+  FS.init();
+  FS.root.write = true;
+  FS.createDataFile('/', 'image.' + suffix, data, true, false);
 
-    run(['-i', 'image.j2k', '-o', 'image.raw'])
-    var ret = {
-      width: getValue(_output_width, 'i32'),
-      height: getValue(_output_height, 'i32'),
-      data: FS.root.contents['image.raw'].contents
-    };
-
-    // Delete the file so future calls will work
-    var path = FS.analyzePath('/image.j2k');
-    delete path.parentObject.contents[path.name];
-
-    return ret;
+  run(['-i', 'image.' + suffix, '-o', 'image.raw'])
+  var ret = {
+    width: getValue(_output_width, 'i32'),
+    height: getValue(_output_height, 'i32'),
+    data: FS.root.contents['image.raw'].contents
   };
-})();
+
+  return ret;
+}
 ''')
 f.close()
 
