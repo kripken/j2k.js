@@ -10,11 +10,10 @@ for name, suffix, x, y, ref in [['syntensity_lobby_s', 'j2k', 40, 30, 'reference
                                 ['relax', 'jp2', 400, 300, 'relax.raw']]:
   print 'testing: ' + name + '.' + suffix
   data = str(map(ord, open(name + '.' + suffix, 'r').read()))
-  output = emscripten.run_js('test.js', SPIDERMONKEY_ENGINE, [sys.argv[1], data, suffix])
+  raw = emscripten.run_js('test.js', SPIDERMONKEY_ENGINE, [sys.argv[1], data, suffix])
   #print output
-  m = re.search("result:(.*)", output)
-  assert m, 'Failed to generate proper output: %s' % output
-  output = eval('[' + m.groups(1)[0] + ']')
+  sets = raw.split('*')
+  output = eval('[' + sets[1] + ']')
   width = output[0]
   height = output[1]
   data = ''.join([chr(item) for item in output[2:]])
