@@ -11,7 +11,6 @@ for name, suffix, x, y, ref in [['syntensity_lobby_s', 'j2k', 40, 30, 'reference
   print 'testing: ' + name + '.' + suffix
   data = str(map(ord, open(name + '.' + suffix, 'r').read()))
   raw = emscripten.run_js('test.js', SPIDERMONKEY_ENGINE, [sys.argv[1], data, suffix])
-  #print output
   sets = raw.split('*')
   output = eval('[' + sets[1] + ']')
   width = output[0]

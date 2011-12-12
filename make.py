@@ -11,21 +11,16 @@ import tools.shared as emscripten
 
 # Config
 
-emscripten.Settings.USE_TYPED_ARRAYS = 0
+emscripten.Settings.USE_TYPED_ARRAYS = 2
 emscripten.Settings.CORRECT_OVERFLOWS = 0
 emscripten.Settings.CORRECT_ROUNDINGS = 0
+emscripten.Settings.CORRECT_SIGNS = 1
 emscripten.Settings.OPTIMIZE = 1
 emscripten.Settings.RELOOP = 1
 emscripten.Settings.INIT_STACK = 0
 emscripten.Settings.INVOKE_RUN = 0
 
-if emscripten.Settings.USE_TYPED_ARRAYS == 2:
-  emscripten.Settings.CORRECT_SIGNS = 1
-else:
-  emscripten.Settings.CORRECT_SIGNS = 1
-  emscripten.Settings.CORRECT_SIGNS_LINES = ["mqc.c:566", "mqc.c:317"]
-  emscripten.Building.COMPILER_TEST_OPTS = ['-g']
-
+emscripten.Building.COMPILER_TEST_OPTS = ['-g']
 
 # Build
 

@@ -31,6 +31,9 @@ returns a a JSON object of form
 
 See test.js for a concrete example (it is called by test.py).
 
+Note: j2k.js by default requires typed arrays. You can also build it without typed arrays,
+      but it will be much slower (see below).
+
 
 Building
 --------
@@ -45,6 +48,7 @@ Do
 
 Looks like you need |make clean| in build/ as incremental builds do not always link.
 
+
 Testing
 -------
 
@@ -58,4 +62,9 @@ The generated files are written to generated.raw. You can view them in GIMP
 by opening them as RAW (select "all files", then "select file type" as raw,
 and pick "generated.raw"). You should select "Planar RGB" as the format, and
 enter the right width and height.
+
+You can modify the settings in make.py. For example, changing
+`USE_TYPED_ARRAYS` to 0 will make it generate a build without typed arrays
+(which as mentioned above, will be slower but will work if the environment
+lacks typed arrays).
 
