@@ -1,11 +1,11 @@
 
 print('loading..');
 
-load(arguments[1]);
+load(arguments[0]);
 
 print('decoding..');
 
-var data = eval(arguments[0]);
+var data = eval(arguments[1]);
 var suffix = arguments[2];
 var output1 = openjpeg(data, suffix);
 var output2 = openjpeg(data, suffix); // Do it twice for testing purposes
