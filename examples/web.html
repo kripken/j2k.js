@@ -7,42 +7,51 @@
   <script>
     
     // Modify this to test new images
-    var src = 'sail.j2k';
+    var filename = 'world';
+    var extension = 'jp2';
+    var src = filename + '.' + extension;
 
     var xhr = new XMLHttpRequest();
-    xhr.open('GET', src, false);
+    xhr.open('GET', src);
     xhr.mozResponseType = xhr.responseType = 'arraybuffer';
-    xhr.send(null);
 
-    if (xhr.status === 200 || xhr.status === 0) {
+    xhr.onreadystatechange = function(e) {
+      if (xhr.readyState !== 4)
+        throw "Error in XHR response";
+
+      if (xhr.status !== 200 && xhr.status !== 0)
+        throw "Error in XHR response";
+
       var buffer = (xhr.mozResponseArrayBuffer || xhr.mozResponse ||
                   xhr.responseArrayBuffer || xhr.response);
 
       var bytes = new Uint8Array(buffer);
-      var rgbImage = openjpeg(bytes);
+      var rgbImage = openjpeg(bytes, extension);
 
       var canvas = document.getElementById('canvas');
       canvas.width = rgbImage.width;
       canvas.height = rgbImage.height;
-      
+      var pixelsPerChannel = rgbImage.width * rgbImage.height;
+
       var ctx = canvas.getContext('2d');
       var rgbaImage = ctx.createImageData(rgbImage.width, rgbImage.height);
 
       var i = 0, j = 0;
-      while (i < rgbaImage.data.length && j < rgbImage.data.length) {
+      while (i < rgbaImage.data.length && j < pixelsPerChannel) {
         rgbaImage.data[i] = rgbImage.data[j]; // R
-        rgbaImage.data[i+1] = rgbImage.data[j+1]; // G
-        rgbaImage.data[i+2] = rgbImage.data[j+2]; // B
+        rgbaImage.data[i+1] = rgbImage.data[j + pixelsPerChannel]; // G
+        rgbaImage.data[i+2] = rgbImage.data[j + 2*pixelsPerChannel]; // B
         rgbaImage.data[i+3] = 255; // A
 
         // Next pixel
         i += 4;
-        j += 3;
+        j += 1;
       }
 
       ctx.putImageData(rgbaImage, 0, 0);
     }
-  
+
+    xhr.send(null);  
   </script>
 
 </body>
