@@ -17,16 +17,18 @@
 
     xhr.onreadystatechange = function(e) {
       if (xhr.readyState !== 4)
-        throw "Error in XHR response";
+        return;
 
       if (xhr.status !== 200 && xhr.status !== 0)
-        throw "Error in XHR response";
+        throw "Error in XHR response (status = "+xhr.status+")";
 
       var buffer = (xhr.mozResponseArrayBuffer || xhr.mozResponse ||
                   xhr.responseArrayBuffer || xhr.response);
 
       var bytes = new Uint8Array(buffer);
+      var t0 = new Date().getTime();
       var rgbImage = openjpeg(bytes, extension);
+      console.log('---> openjpeg() total time: ', ((new Date().getTime()) - t0) + 'ms');
 
       var canvas = document.getElementById('canvas');
       canvas.width = rgbImage.width;
