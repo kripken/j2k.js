@@ -1,6 +1,6 @@
 
 self.onmessage = function(event) {  
-  var bytes = event.bytes, extension = event.extension;
+  var bytes = event.data.bytes, extension = event.data.extension;
   
   importScripts('../openjpeg.js');
   var j2k = openjpeg(bytes, extension);
