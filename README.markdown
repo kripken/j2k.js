@@ -46,7 +46,12 @@ Do
     python make.py
 ```
 
-Looks like you need |make clean| in build/ as incremental builds do not always link.
+Note: Looks like you need |make clean| in build/ as incremental builds do not always link.
+
+You can modify the settings in make.py. For example, changing
+`USE_TYPED_ARRAYS` to 0 will make it generate a build without typed arrays
+(which as mentioned above, will be slower but will work if the environment
+lacks typed arrays).
 
 
 Testing
@@ -63,8 +68,6 @@ by opening them as RAW (select "all files", then "select file type" as raw,
 and pick "generated.raw"). You should select "Planar RGB" as the format, and
 enter the right width and height.
 
-You can modify the settings in make.py. For example, changing
-`USE_TYPED_ARRAYS` to 0 will make it generate a build without typed arrays
-(which as mentioned above, will be slower but will work if the environment
-lacks typed arrays).
+You should also make sure that examples/simple.html and examples/worker.html
+both work properly in a web browser.
 
