@@ -69,6 +69,7 @@ f.write('''
 function openjpeg(data, suffix) {
   var Module = {};
   Module.arguments = [];
+  var print = function(){};
 ''')
 f.write(open(filename + '.o.js', 'r').read())
 f.write('''
