@@ -31,6 +31,7 @@
       
       worker.onmessage = function(event) {
         console.log('---> openjpeg() total time: ', ((new Date().getTime()) - t0) + 'ms');
+        var rgbImage = event.data;
 
         var canvas = document.getElementById('canvas');
         canvas.width = rgbImage.width;
