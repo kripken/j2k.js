@@ -27,10 +27,9 @@
       var bytes = new Uint8Array(buffer);
 
       var worker = new Worker('worker.js');      
-      var t0 = new Date().getTime();
       
       worker.onmessage = function(event) {
-        console.log('---> openjpeg() total time: ', ((new Date().getTime()) - t0) + 'ms');
+        console.log('---> openjpeg() total time: ', event.data.tdiff + 'ms');
         var rgbImage = event.data;
 
         var canvas = document.getElementById('canvas');
